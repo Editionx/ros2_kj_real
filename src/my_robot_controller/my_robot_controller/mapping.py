@@ -34,6 +34,15 @@ class TurtleMappingNode(Node):
                 cmd.angular.z = -0.8
             else:
                 cmd.angular.z = 0.8
+        
+        elif self._right < 0.2:
+            cmd.angular.z = 0.5
+            cmd.linear.x = 0.2
+        
+        elif self._left < 0.2:
+            cmd.angular.z = -0.5
+            cmd.linear.x = 0.2
+
         else:
             cmd.linear.x = 0.5
             cmd.angular.z = 0.0
