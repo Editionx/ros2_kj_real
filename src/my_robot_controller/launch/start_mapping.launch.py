@@ -17,7 +17,7 @@ def generate_launch_description():
                 PathJoinSubstitution([
                     FindPackageShare('turtlebot3_gazebo'),
                     'launch',
-                    'turtlebot3_world.launch.py'
+                    'empty_world.launch.py'
                 ])
             ]),
         ),
