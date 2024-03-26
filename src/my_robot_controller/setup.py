@@ -13,6 +13,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/maps', glob('maps/*')),
         (os.path.join('share', package_name, 'launch'), glob(os.path.join('launch', '*launch.[pxy][yma]*'))),
     ],
     install_requires=['setuptools'],
@@ -24,7 +25,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "mapping = my_robot_controller.mapping:main"
+            "mapping = my_robot_controller.mapping:main",
+            "navigation = my_robot_controller.navigation:main"
         ],
     },
 )
