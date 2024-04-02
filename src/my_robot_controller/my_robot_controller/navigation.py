@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry
@@ -8,9 +7,6 @@ from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped
 import tf_transformations
 import time
 import math
-
-
-
 
 class TurtleNavigationNode(Node):
   
@@ -59,16 +55,14 @@ class TurtleNavigationNode(Node):
        self.y_home = -0.5
       
        self.goal_poses.append({'x': 1.5, 'y': -1.0, 'yaw': -30.0})
-       self.goal_poses.append({'x': 2.5, 'y': 2.0, 'yaw': 60.0})
-       self.goal_poses.append({'x': 2.50, 'y': -1.0, 'yaw': 40.0})
-       self.goal_poses.append({'x': 1.50, 'y': 2.0, 'yaw': 0.0})
+       self.goal_poses.append({'x': 6.5, 'y': -1.0, 'yaw': 60.0})
+       #self.goal_poses.append({'x': 2.50, 'y': -1.0, 'yaw': 40.0})
+       #self.goal_poses.append({'x': 1.50, 'y': 2.0, 'yaw': 0.0})
       
       
        time.sleep(5)
        self.publish_goal()
-      
-      
-      
+       
    def odom_callback(self, msg: Odometry):
        # Check if current goal pose is reached
        current_pose = msg.pose.pose
@@ -89,7 +83,6 @@ class TurtleNavigationNode(Node):
             self.get_logger().info("All goals explored!")
             self.stop()
 
-
    def publish_goal(self):
            pose_msg = PoseStamped()
            pose_msg.pose.position.x = self.goal_poses[self.current_goal_index]['x']
@@ -106,21 +99,15 @@ class TurtleNavigationNode(Node):
            self.goal_pose_publisher.publish(pose_msg)
            self.get_logger().info("Published goal: {}".format(self.current_goal_index))
 
-
    def stop(self):
        self.get_logger().info("stopping the node")
        # self.destroy_node()
        rclpy.shutdown()
        raise KeyboardInterrupt
-          
-
-
-
 
 def main(args=None):
    rclpy.init(args=args)
    node = TurtleNavigationNode()
-
 
    try:
        rclpy.spin(node)
@@ -128,8 +115,5 @@ def main(args=None):
        node.destroy_node()
        rclpy.shutdown()
   
-  
-
-
 if __name__ == '__main__':
    main()
