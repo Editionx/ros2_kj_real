@@ -25,7 +25,9 @@ class CarNavigationNode(Node):
        self.odom_listener = self.create_subscription(
            Odometry, "/localization/kinematic_state", self.odom_callback, 10)
       
-       
+       self.change_mode_srv = self.create_client(ChangeOperationMode, '/system/operation_mode/change_operation_mode')
+       self.change_mode_req = ChangeOperationMode.Request()
+
 
        ############# [Initial Location] ############
        initial_pose = PoseWithCovarianceStamped()
@@ -57,6 +59,8 @@ class CarNavigationNode(Node):
        #self.x_home = -2.0
        #self.y_home = -0.5
       
+       self.goal_poses.append({'x': 3714.51, 'y': 73699.3, 'xx':0.0, 'yy':0.0,'zz': -0.55, 'w':0.838})
+       self.goal_poses.append({'x': 3801.17, 'y': 73714.37, 'xx':0.0, 'yy':0.0,'zz': 0.253, 'w':0.967})
        self.goal_poses.append({'x': 3656.76, 'y': 73462.62, 'xx':0.0, 'yy':0.0,'zz': -0.657, 'w':0.754})
        #self.goal_poses.append({'x': 6.5, 'y': -1.0, 'yaw': 60.0})
        #self.goal_poses.append({'x': 2.50, 'y': -1.0, 'yaw': 40.0})
@@ -86,6 +90,10 @@ class CarNavigationNode(Node):
             self.get_logger().info("All goals explored!")
             self.stop()
 
+   def send_request(self):
+        self.change_mode_req.mode = 2
+        self.change_mode_srv.call_async(self.change_mode_req)
+
    def publish_goal(self):
            pose_msg = PoseStamped()
            pose_msg.pose.position.x = self.goal_poses[self.current_goal_index]['x']
@@ -100,6 +108,8 @@ class CarNavigationNode(Node):
            pose_msg.header.frame_id = 'map'
            self.goal_pose_publisher.publish(pose_msg)
            self.get_logger().info("Published goal: {}".format(self.current_goal_index))
+           time.sleep(3)
+           self.send_request()
 
    def stop(self):
        self.get_logger().info("stopping the node")
