@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<testsuites name="/home/autolab/autoware_map/scenario_test_runner" failures="0" errors="1" tests="1">
+  <testsuite name="t4v21" failures="0" errors="1" tests="1">
+    <testcase name="t4v21">
+      <error type="SemanticError" message="/autoware/src/scenario_simulator_v2/simulation/traffic_simulator/src/entity/pedestrian_entity.cpp:155: Goal of the pedestrian entity should be on lane." />
+    </testcase>
+  </testsuite>
+</testsuites>
